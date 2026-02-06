@@ -1,6 +1,9 @@
 const Product = require("../../models/product.model")
 const filterStatusHelpers = require("../../helpers/filterStatus");
 const searchHelpers = require("../../helpers/search");
+const paginationHelpers = require("../../helpers/pagination");
+
+
 // [GET] /adfmin/products
 
 module.exports.index= async (req, res) => {
@@ -29,26 +32,17 @@ module.exports.index= async (req, res) => {
         }
         // pagination
 
-        let objectPagination = {
+        const countProducts = await Product.countDocuments(find);
+
+        let objectPagination = paginationHelpers({
                 currentPage: 1,
                 limitItems: 4
-        };
-
-        if (req.query.page){
-                objectPagination.currentPage = parseInt(req.query.page);
-
-        }
-
-        objectPagination.skip = (objectPagination.currentPage - 1) * objectPagination.limitItems;
-
-        const countProducts = await Product.countDocuments(find);
-        const totalPage = Math.ceil(countProducts/objectPagination.limitItems);
+        },
+        req.query,
+        countProducts
+);
         
-
-        objectPagination.totalPage = totalPage;
-        // console.log(objectPagination.currentPage)
-        
-
+                
         // end pagination
 
 
