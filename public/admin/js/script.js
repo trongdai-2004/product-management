@@ -84,11 +84,11 @@ if (checkboxMulti) {
             const countChecked = checkboxMulti.querySelectorAll(
                 "input[name= 'id']:checked"
             ).length;
-           
-            if(countChecked == inputsId.length){
+
+            if (countChecked == inputsId.length) {
                 inputCheckAll.checked = true;
-            }else{
-                 inputCheckAll.checked = false;
+            } else {
+                inputCheckAll.checked = false;
             }
         })
     });
@@ -99,35 +99,46 @@ if (checkboxMulti) {
 // form change multi
 
 const formChangeMulti = document.querySelector("[form-change-multi]");
-if (formChangeMulti){
-    formChangeMulti.addEventListener("submit", (e) =>{
+if (formChangeMulti) {
+    formChangeMulti.addEventListener("submit", (e) => {
         e.preventDefault();
 
 
         const checkboxMulti = document.querySelector("[checkbox-multi]");
-         const inputsChecked = checkboxMulti.querySelectorAll(
-                "input[name= 'id']:checked"
-            );
+        const inputsChecked = checkboxMulti.querySelectorAll(
+            "input[name= 'id']:checked"
+        );
 
-        if(inputsChecked.length > 0){
+        const typeChange = e.target.elements.type.value;
+        console.log(typeChange)
+
+        if(typeChange == "delete-all"){
+            const isConfỉm = confirm("Bạn có chất muốn xóa những sản phẩm này không !  ");
+            if (!isConfỉm){
+                return;
+            }
+        }
+
+
+        if (inputsChecked.length > 0) {
             let ids = [];
 
             const inputsId = formChangeMulti.querySelector("input[name ='ids']")
 
 
-            inputsChecked.forEach(input =>{
+            inputsChecked.forEach(input => {
                 const id = input.value
                 ids.push(id);
             });
 
-            
+
             inputsId.value = ids.join(",")
             formChangeMulti.submit();
 
-        }else {
+        } else {
             alert("Vui lòng chọn ít nhất 1 bản ghi");
         }
-        
+
     })
 }
 
