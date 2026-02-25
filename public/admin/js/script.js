@@ -112,23 +112,30 @@ if (formChangeMulti) {
         const typeChange = e.target.elements.type.value;
         console.log(typeChange)
 
-        if(typeChange == "delete-all"){
+        if (typeChange == "delete-all") {
             const isConfỉm = confirm("Bạn có chất muốn xóa những sản phẩm này không !  ");
-            if (!isConfỉm){
+            if (!isConfỉm) {
                 return;
             }
+
         }
 
 
         if (inputsChecked.length > 0) {
             let ids = [];
-
             const inputsId = formChangeMulti.querySelector("input[name ='ids']")
-
-
             inputsChecked.forEach(input => {
-                const id = input.value
-                ids.push(id);
+                const id = input.value;
+                if (typeChange == "change-position") {
+                    const position = input.closest("tr").querySelector("input[name='position']").value;
+
+
+                    
+                    ids.push(`${id}-${position}`);
+                } else {
+                    ids.push(id);
+                }
+
             });
 
 
